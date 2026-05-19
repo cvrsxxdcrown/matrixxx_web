@@ -28,7 +28,7 @@ class ComputeRequest(BaseModel):
 def health():
     return {"ok": True}
 
-@app.post("/compute")
+@app.post("/api/compute")
 def compute(req: ComputeRequest):
     try:
         return solve_request(req.model_dump())
