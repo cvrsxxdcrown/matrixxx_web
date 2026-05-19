@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Matrixxx</title>
+  <link rel="stylesheet" href="styles.css"/>
+
+  <script>
+    window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="hero-top">
+      <h1>Matrixxx</h1>
+      <nav class="nav">
+        <a class="nav-link active" href="index.html">Калькулятор</a>
+        <a class="nav-link" href="visualization.html">Визуализация</a>
+      </nav>
+    </div>
+    <p>Пошаговый матричный калькулятор с раздельными размерами строк и столбцов, импортом и экспортом.</p>
+  </header>
+
+  <section class="matrices">
+    <div class="card">
+      <div class="card-head">
+        <div class="title">Матрица A</div>
+        <div class="limit-badge">Лимит: 10x10</div>
+      </div>
+
+      <div class="matrix-toolbar">
+        <div class="dim-groups">
+          <div class="dim-control">
+            <span class="dim-label">Строки</span>
+            <div class="btns">
+              <button class="btn" type="button" data-m="A" data-axis="rows" data-act="minus">-</button>
+              <span class="dim-value" id="rowsValueA">3</span>
+              <button class="btn" type="button" data-m="A" data-axis="rows" data-act="plus">+</button>
+            </div>
+          </div>
+
+          <div class="dim-control">
+            <span class="dim-label">Столбцы</span>
+            <div class="btns">
+              <button class="btn" type="button" data-m="A" data-axis="cols" data-act="minus">-</button>
+              <span class="dim-value" id="colsValueA">3</span>
+              <button class="btn" type="button" data-m="A" data-axis="cols" data-act="plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <label class="btn import-btn" for="importA">Импорт CSV/TXT</label>
+        <input id="importA" class="file-input" type="file" accept=".csv,.txt" data-import="A"/>
+      </div>
+
+      <div id="gridA" class="grid"></div>
+      <div class="meta" id="sizeA"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="title">Матрица B</div>
+        <div class="limit-badge">Лимит: 10x10</div>
+      </div>
+
+      <div class="matrix-toolbar">
+        <div class="dim-groups">
+          <div class="dim-control">
+            <span class="dim-label">Строки</span>
+            <div class="btns">
+              <button class="btn" type="button" data-m="B" data-axis="rows" data-act="minus">-</button>
+              <span class="dim-value" id="rowsValueB">3</span>
+              <button class="btn" type="button" data-m="B" data-axis="rows" data-act="plus">+</button>
+            </div>
+          </div>
+
+          <div class="dim-control">
+            <span class="dim-label">Столбцы</span>
+            <div class="btns">
+              <button class="btn" type="button" data-m="B" data-axis="cols" data-act="minus">-</button>
+              <span class="dim-value" id="colsValueB">3</span>
+              <button class="btn" type="button" data-m="B" data-axis="cols" data-act="plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <label class="btn import-btn" for="importB">Импорт CSV/TXT</label>
+        <input id="importB" class="file-input" type="file" accept=".csv,.txt" data-import="B"/>
+      </div>
+
+      <div id="gridB" class="grid"></div>
+      <div class="meta" id="sizeB"></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="opbar">
+      <label class="field">
+        <span>Операция</span>
+        <select id="op">
+          <option value="add">Сложение (A + B)</option>
+          <option value="mul">Умножение (A · B)</option>
+          <option value="transpose">Транспонирование</option>
+          <option value="det">Определитель</option>
+          <option value="inv">Обратная матрица</option>
+        </select>
+      </label>
+
+      <label class="field" id="targetWrap">
+        <span>Матрица</span>
+        <select id="target">
+          <option value="A">A</option>
+          <option value="B">B</option>
+        </select>
+      </label>
+
+      <button id="toggleSteps" class="btn ghost" type="button">Скрыть шаги</button>
+    </div>
+
+    <div class="hint-grid">
+      <div class="hint" id="hint"></div>
+      <div class="compatibility" id="compatibility"></div>
+    </div>
+
+    <div class="exprrow">
+      <div id="error" class="error" style="display:none"></div>
+      <button id="eq" class="eq">=</button>
+    </div>
+
+    <div class="result">
+      <div class="block pink">
+        <div class="block-title">Исходное выражение</div>
+        <div id="srcLatex" class="math"></div>
+      </div>
+
+      <div class="block gray" id="stepsBlock">
+        <div class="block-title">Пошаговое решение</div>
+
+        <details open class="detail green">
+          <summary>Вычисляем</summary>
+          <div id="calcLatex" class="math"></div>
+        </details>
+
+        <details open class="detail blue">
+          <summary>Подробнее</summary>
+          <ul id="steps"></ul>
+        </details>
+      </div>
+
+      <div class="block red">
+        <div class="block-title result-head">
+          <span>Результат вычислений</span>
+          <div class="export-actions">
+            <button id="exportTxt" class="btn ghost" type="button" disabled>TXT</button>
+            <button id="exportPdf" class="btn ghost" type="button" disabled>PDF</button>
+          </div>
+        </div>
+        <div id="resLatex" class="math"></div>
+        <div id="exportMeta" class="export-meta">Сначала выполните вычисление.</div>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>

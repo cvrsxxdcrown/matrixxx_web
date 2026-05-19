@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Matrixxx — Визуализация матриц</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="visualization.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero-top">
+        <h1>Matrixxx</h1>
+        <nav class="nav">
+          <a class="nav-link" href="index.html">Калькулятор</a>
+          <a class="nav-link active" href="visualization.html">Визуализация</a>
+        </nav>
+      </div>
+      <p>Методы визуализации матриц с раздельными размерами строк и столбцов.</p>
+    </header>
+
+    <main class="grid2">
+      <section class="card">
+        <div class="card-head">
+          <h2>Матрица M</h2>
+          <div class="limit-badge">Лимит: 10x10</div>
+        </div>
+
+        <div class="matrix-toolbar viz-toolbar">
+          <div class="dim-groups">
+            <div class="dim-control">
+              <span class="dim-label">Строки</span>
+              <div class="btns">
+                <button id="btnRowsMinus" class="mini" title="Уменьшить строки">-</button>
+                <span class="dim-value" id="rowsValue">6</span>
+                <button id="btnRowsPlus" class="mini" title="Увеличить строки">+</button>
+              </div>
+            </div>
+
+            <div class="dim-control">
+              <span class="dim-label">Столбцы</span>
+              <div class="btns">
+                <button id="btnColsMinus" class="mini" title="Уменьшить столбцы">-</button>
+                <span class="dim-value" id="colsValue">6</span>
+                <button id="btnColsPlus" class="mini" title="Увеличить столбцы">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="matrixGrid" class="matrix-grid" aria-label="Редактор матрицы"></div>
+
+        <div class="meta">
+          <div><b>Размер:</b> <span id="sizeLabel">—</span></div>
+        </div>
+
+        <div class="controls">
+          <div class="control">
+            <label>Пример</label>
+            <select id="preset">
+              <option value="user">Пользовательская</option>
+              <option value="random">Случайная (-5..5)</option>
+              <option value="identity">Псевдо-единичная</option>
+              <option value="symmetric">Симметричная область</option>
+              <option value="adj">Матрица смежности (0/1)</option>
+            </select>
+          </div>
+
+          <div class="control">
+            <label>Масштаб цвета</label>
+            <select id="scale">
+              <option value="diverging">Двухполярная (-...0...+)</option>
+              <option value="sequential">Последовательная (0...+)</option>
+              <option value="grayscale">Grayscale</option>
+            </select>
+          </div>
+
+          <div class="control checkbox">
+            <label>
+              <input id="normalize" type="checkbox" checked />
+              Нормировать (по min/max)
+            </label>
+          </div>
+
+          <button id="btnReset" class="btn">Обнулить</button>
+
+          <div class="stats" id="statsBox">—</div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="viz-head">
+          <div class="control grow">
+            <label>Метод визуализации</label>
+            <select id="method">
+              <option value="heatmap">Тепловая карта (heatmap)</option>
+              <option value="image">Изображение (grayscale)</option>
+              <option value="bars">Гистограммы (суммы строк/столбцов)</option>
+            </select>
+          </div>
+
+          <div class="control">
+            <label>Размер клетки (px)</label>
+            <input id="cellSize" type="number" min="8" max="80" step="1" value="26"/>
+          </div>
+
+          <div class="hint" id="hintBox">
+            Heatmap: цвет клетки кодирует значение элемента a<sub>ij</sub>.
+          </div>
+        </div>
+
+        <div class="viz-area">
+          <canvas id="vizCanvas" width="600" height="420"></canvas>
+        </div>
+
+        <div class="viz-foot" id="legend">—</div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <small>Matrixxx — демо визуализации матриц для курсовой работы.</small>
+    </footer>
+  </div>
+
+  <script defer src="visualization.js"></script>
+</body>
+</html>
