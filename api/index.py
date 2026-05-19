@@ -24,7 +24,7 @@ class ComputeRequest(BaseModel):
     op: OpType
     target: TargetType = "A"
 
-@app.get("/health")
+@app.get("/api/health")
 def health():
     return {"ok": True}
 
