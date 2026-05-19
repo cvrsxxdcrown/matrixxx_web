@@ -1,4 +1,4 @@
-const API = "http://127.0.0.1:8000/compute";
+const API = "/compute";
 const MAX_DIM = 10;
 
 const state = {
