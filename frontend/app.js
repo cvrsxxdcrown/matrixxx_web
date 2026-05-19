@@ -1,4 +1,4 @@
-const API = "/compute";
+const API = "/api/compute";
 const MAX_DIM = 10;
 
 const state = {
