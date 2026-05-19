@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/compute",
+      "destination": "/api"
+    },
+    {
+      "source": "/health",
+      "destination": "/api"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/frontend/$1"
+    }
+  ]
+}
